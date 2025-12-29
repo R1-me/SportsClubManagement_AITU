@@ -1,29 +1,21 @@
+import java.util.ArrayList;
+
 public class SportsClub {
     private String name;
-    private String location;
+    private ArrayList<Person> people;
 
-    public SportsClub(String name, String location) {
+    public SportsClub(String name) {
         this.name = name;
-        this.location = location;
+        this.people = new ArrayList<>();
     }
 
-    public String getName() {
-        return name;
+    public void addPerson(Person person) {
+        people.add(person);
     }
 
-    public String getLocation() {
-        return location;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String toString() {
-        return name + " in " + location;
+    public void showAll() {
+        for (Person p : people) {
+            System.out.println(p);
+        }
     }
 }
