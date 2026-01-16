@@ -1,3 +1,5 @@
+import java.sql.*;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -22,5 +24,45 @@ public class Main {
 
         System.out.println("\nTraining info:");
         System.out.println(training);
+        try {
+            Connection con = DriverManager.getConnection(
+                    "jdbc:postgresql://localhost:5432/OOP_Sports_club_MS",
+                    "postgres",
+                    "787899KAA"
+            );
+
+            Statement stmt = con.createStatement();
+            stmt.executeUpdate("INSERT INTO sport (name) VALUES ('Boxing')");
+            stmt.executeUpdate("INSERT INTO sport (name) VALUES ('Football')");
+
+            stmt.executeUpdate("INSERT INTO athlete (name, age, sport_id) VALUES ('Abylay', 21, 1),('Timur', 19, 2)");
+
+
+            ResultSet rs = stmt.executeQuery(
+                    "SELECT athlete.name, athlete.age, sport.name AS sport " +
+                            "FROM athlete JOIN sport ON athlete.sport_id = sport.id"
+            );
+
+            while (rs.next()) {
+                System.out.println(
+                        rs.getString("name") + "  " +
+                                rs.getInt("age") + "  " +
+                                rs.getString("sport")
+                );
+            }
+
+            stmt.executeUpdate("UPDATE athlete SET age = 22 WHERE name = 'Abylay'");
+
+
+            stmt.executeUpdate("DELETE FROM athlete WHERE name = 'Timur'");
+            rs.close();
+            stmt.close();
+            con.close();
+
+        } catch (SQLException e) {
+            System.out.println("Database error occurred");
+            e.printStackTrace();
+        }
+
     }
 }
